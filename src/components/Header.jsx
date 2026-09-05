@@ -1,82 +1,70 @@
 import React from 'react';
-import { ShieldCheck, Cpu } from 'lucide-react';
+import { Shield, Sparkles } from 'lucide-react';
 
 export const Header = () => {
   return (
     <header style={{
       borderBottom: '1px solid var(--border-color)',
-      backgroundColor: 'rgba(11, 15, 23, 0.95)',
+      backgroundColor: 'var(--bg-card)',
       position: 'sticky',
       top: 0,
       zIndex: 50,
-      backdropFilter: 'blur(8px)'
+      boxShadow: 'var(--shadow-sm)'
     }}>
       <div className="container" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: '4rem'
+        height: '3.75rem'
       }}>
         {/* Brand Logo & Name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div style={{
-            width: '2.25rem',
-            height: '2.25rem',
+            width: '2.1rem',
+            height: '2.1rem',
             borderRadius: 'var(--radius-md)',
-            background: 'linear-gradient(135deg, #2563EB 0%, #06B6D4 100%)',
+            background: 'var(--accent-blue)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 15px rgba(37, 99, 235, 0.4)'
+            color: '#FFFFFF'
           }}>
-            <Cpu size={20} color="#FFFFFF" />
+            <Sparkles size={18} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: '1.25rem',
+                fontSize: '1.2rem',
                 fontWeight: 800,
                 letterSpacing: '-0.02em',
                 color: 'var(--text-primary)'
               }}>
-                Term<span style={{ color: '#60A5FA' }}>Pilot</span>
-              </span>
-              <span style={{
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                padding: '0.15rem 0.4rem',
-                borderRadius: '4px',
-                backgroundColor: 'rgba(37, 99, 235, 0.15)',
-                color: '#60A5FA',
-                border: '1px solid rgba(37, 99, 235, 0.3)'
-              }}>
-                MVP v1.0
+                Term<span style={{ color: 'var(--accent-blue)' }}>Pilot</span>
               </span>
             </div>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              SME Payment-Term Decision Agent
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+              B2B payment-term advisor
             </p>
           </div>
         </div>
 
-        {/* Phase / Security Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        {/* Security / Quality Indicator */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            fontSize: '0.8rem',
+            gap: '0.375rem',
+            fontSize: '0.775rem',
             color: 'var(--text-secondary)',
-            backgroundColor: 'var(--bg-card)',
-            padding: '0.35rem 0.75rem',
-            borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--border-color)'
+            backgroundColor: 'var(--bg-main)',
+            padding: '0.3rem 0.65rem',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border-color)',
+            fontWeight: 500
           }}>
-            <ShieldCheck size={16} color="var(--accent-emerald)" />
-            <span>Step 1: Input & Financial State Layer</span>
+            <Shield size={14} color="var(--accent-emerald)" />
+            <span>AI Financial Advisor</span>
           </div>
         </div>
       </div>

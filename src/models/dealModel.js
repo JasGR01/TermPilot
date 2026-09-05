@@ -7,7 +7,9 @@ export const INITIAL_DEAL_STATE = {
   buyerName: '',
   dealValue: '',
   proposedPaymentTermDays: 30, // Default Net 30
-  expectedOrderDate: new Date().toISOString().split('T')[0] // Default today's date
+  expectedOrderDate: new Date().toISOString().split('T')[0], // Default today's date
+  estimatedFulfillmentCost: '',
+  fulfillmentPaymentTimingDays: 0 // Default 0 days (immediate cash outflow)
 };
 
 export const INITIAL_FINANCIAL_PROFILE_STATE = {

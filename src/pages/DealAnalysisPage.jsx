@@ -4,7 +4,7 @@ import { validateDealAnalysisForm } from '../utils/validation';
 import { DealSection } from '../components/DealSection';
 import { FinancialProfileSection } from '../components/FinancialProfileSection';
 import { DealAnalysisResultPage } from './DealAnalysisResultPage';
-import { ArrowRight, ShieldAlert, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 export const DealAnalysisPage = () => {
   const [deal, setDeal] = useState(INITIAL_DEAL_STATE);
@@ -47,13 +47,15 @@ export const DealAnalysisPage = () => {
 
     setErrors({});
 
-    // Build clean numeric payload contract for Step 2
+    // Build clean numeric payload contract
     const cleanPayload = {
       deal: {
         buyerName: deal.buyerName.trim(),
         dealValue: Number(deal.dealValue),
         proposedPaymentTermDays: Number(deal.proposedPaymentTermDays),
-        expectedOrderDate: deal.expectedOrderDate
+        expectedOrderDate: deal.expectedOrderDate,
+        estimatedFulfillmentCost: Number(deal.estimatedFulfillmentCost),
+        fulfillmentPaymentTimingDays: Math.max(0, Number(deal.fulfillmentPaymentTimingDays ?? 0))
       },
       financialProfile: {
         availableCash: Number(financialProfile.availableCash),
@@ -72,7 +74,7 @@ export const DealAnalysisPage = () => {
     setSubmittedPayload(null);
   };
 
-  // If successfully submitted, render Step 2 Results View
+  // If successfully submitted, render Results View
   if (submittedPayload) {
     return (
       <DealAnalysisResultPage
@@ -82,80 +84,65 @@ export const DealAnalysisPage = () => {
     );
   }
 
-  // Otherwise render Step 1 Input Form View
+  // Otherwise render Input View
   return (
-    <div style={{ padding: '2.5rem 0 4rem 0' }}>
-      {/* Page Header */}
-      <div style={{ marginBottom: '2.5rem', textAlign: 'center', maxWidth: '720px', margin: '0 auto 2.5rem auto' }}>
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          backgroundColor: 'rgba(37, 99, 235, 0.12)',
-          color: '#60A5FA',
-          padding: '0.35rem 0.85rem',
-          borderRadius: '9999px',
-          fontSize: '0.8rem',
-          fontWeight: 600,
-          border: '1px solid rgba(37, 99, 235, 0.25)',
-          marginBottom: '1rem'
-        }}>
-          <SlidersHorizontal size={14} />
-          <span>Fintech Decision Engine Input Layer</span>
-        </div>
+    <div style={{ maxWidth: '840px', margin: '0 auto', padding: '1rem 0 3rem 0' }}>
+      {/* Page Hero */}
+      <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
         <h1 style={{
-          fontSize: '2.25rem',
+          fontSize: '2rem',
           fontWeight: 800,
-          letterSpacing: '-0.03em',
+          letterSpacing: '-0.025em',
           color: 'var(--text-primary)',
-          lineHeight: 1.2
+          lineHeight: 1.25
         }}>
-          B2B Deal Payment-Term Analysis
+          Evaluate B2B Payment Terms & Cash Flow
         </h1>
         <p style={{
-          fontSize: '1rem',
+          fontSize: '0.95rem',
           color: 'var(--text-secondary)',
-          marginTop: '0.75rem',
-          lineHeight: 1.6
+          marginTop: '0.5rem',
+          maxWidth: '620px',
+          margin: '0.5rem auto 0 auto',
+          lineHeight: 1.5
         }}>
-          Input proposed deal parameters alongside your SME financial metrics. TermPilot will evaluate cash-flow pressure, working capital impact, and financing costs.
+          Assess cash-flow pressure, calculate carrying costs, and receive recommended payment structures before negotiating with buyers.
         </p>
       </div>
 
       {/* Global Validation Error Banner */}
       {Object.keys(errors).length > 0 && (
         <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto 1.5rem auto',
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
-          border: '1px solid var(--border-error)',
+          backgroundColor: 'var(--accent-rose-bg)',
+          border: '1px solid var(--accent-rose-border)',
           borderRadius: 'var(--radius-md)',
-          padding: '1rem 1.25rem',
+          padding: '0.85rem 1.15rem',
           display: 'flex',
           alignItems: 'center',
           gap: '0.75rem',
-          color: '#FCA5A5',
-          fontSize: '0.875rem'
+          color: 'var(--accent-rose)',
+          fontSize: '0.875rem',
+          marginBottom: '1.5rem',
+          boxShadow: 'var(--shadow-sm)'
         }}>
-          <ShieldAlert size={20} color="var(--accent-rose)" style={{ flexShrink: 0 }} />
+          <AlertTriangle size={18} style={{ flexShrink: 0 }} />
           <div>
-            <strong>Please fix validation errors: </strong>
-            Check the highlighted fields below ({Object.keys(errors).length} invalid inputs).
+            <strong>Validation Required:</strong> Please check the highlighted fields ({Object.keys(errors).length} field errors).
           </div>
         </div>
       )}
 
       {/* Input Form */}
       <form onSubmit={handleAnalyzeDeal} noValidate>
-        <div className="form-grid">
-          {/* Section 1 — Proposed Deal */}
+        <div className="form-stack">
+          {/* Section 1 — Your Deal */}
           <DealSection
             deal={deal}
             errors={errors}
             onChange={handleDealChange}
           />
 
-          {/* Section 2 — Business Financial Profile */}
+          {/* Section 2 — Your Cash Position (Collapsible) */}
           <FinancialProfileSection
             profile={financialProfile}
             errors={errors}
@@ -163,9 +150,9 @@ export const DealAnalysisPage = () => {
           />
         </div>
 
-        {/* Primary Action Button */}
-        <div style={{ maxWidth: '480px', margin: '2.5rem auto 0 auto' }}>
-          <button type="submit" className="btn-primary">
+        {/* Primary CTA */}
+        <div style={{ marginTop: '2rem' }}>
+          <button type="submit" className="btn-primary" style={{ padding: '0.9rem 1.5rem', fontSize: '1rem' }}>
             <span>Analyze Deal</span>
             <ArrowRight size={18} />
           </button>

@@ -37,6 +37,25 @@ export const validateDealAnalysisForm = (deal, financialProfile) => {
     errors.expectedOrderDate = 'Expected order date must be a valid date.';
   }
 
+  // estimatedFulfillmentCost: number > 0 and <= dealValue
+  const costValNum = Number(deal.estimatedFulfillmentCost);
+  if (deal.estimatedFulfillmentCost === '' || deal.estimatedFulfillmentCost === null || deal.estimatedFulfillmentCost === undefined) {
+    errors.estimatedFulfillmentCost = 'Estimated fulfillment cost is required.';
+  } else if (isNaN(costValNum) || costValNum <= 0) {
+    errors.estimatedFulfillmentCost = 'Fulfillment cost must be a positive number greater than 0.';
+  } else if (!isNaN(dealValNum) && dealValNum > 0 && costValNum > dealValNum) {
+    errors.estimatedFulfillmentCost = 'Fulfillment cost cannot exceed total deal value.';
+  }
+
+  // fulfillmentPaymentTimingDays: non-negative integer >= 0
+  const timingStr = String(deal.fulfillmentPaymentTimingDays ?? '').trim();
+  const timingNum = Number(timingStr);
+  if (timingStr === '') {
+    errors.fulfillmentPaymentTimingDays = 'Fulfillment payment timing is required.';
+  } else if (isNaN(timingNum) || !Number.isInteger(timingNum) || timingNum < 0) {
+    errors.fulfillmentPaymentTimingDays = 'Fulfillment payment timing must be a non-negative integer number of days (e.g. 0).';
+  }
+
   // SECTION 2: BUSINESS FINANCIAL PROFILE VALIDATION
   // availableCash: number >= 0
   const cashNum = Number(financialProfile.availableCash);

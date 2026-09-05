@@ -3,7 +3,7 @@ import {
   calculateDailyCapitalCost,
   calculateCashRunway,
   calculateExposureRatioPercent
-} from './calculationUtils';
+} from './calculationUtils.js';
 
 /**
  * Pure Financial Engine Module for TermPilot
